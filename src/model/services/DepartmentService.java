@@ -1,23 +1,30 @@
 package model.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import model.dao.DaoFactory;
+import model.dao.DepartmentDao;
 import model.entities.Department;
 
 public class DepartmentService {
 
-	
-	
-	//métod FindALL MOCK de dados
-	public List<Department> findAll(){
-		
-		List<Department> list = new ArrayList<>();
-		list.add(new Department(1, "Books"));
-		list.add(new Department(2, "Electronics"));
-		list.add(new Department(3, "Workout"));
-		
-		return list;
+	// declaração de dependÊncia com injeção atraves da Factory
+	private DepartmentDao departmentDao = DaoFactory.createDepartmentDao();
+
+	// métod FindALL MOCK de dados
+	/*
+	 * public List<Department> findAll(){
+	 * 
+	 * List<Department> list = new ArrayList<>(); list.add(new Department(1,
+	 * "Books")); list.add(new Department(2, "Electronics")); list.add(new
+	 * Department(3, "Workout"));
+	 * 
+	 * return list; }
+	 */
+
+	public List<Department> findAll() {
+
+		return departmentDao.findAll();
 	}
-	
+
 }

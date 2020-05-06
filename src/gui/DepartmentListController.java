@@ -106,8 +106,10 @@ public class DepartmentListController implements Initializable{
 			Pane pane = loader.load();
 			
 			//carrega os dados do objeto no formulário
+			//injeçoes de dependencia
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);
+			controller.setDepartmentService(new DepartmentService());
 			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();

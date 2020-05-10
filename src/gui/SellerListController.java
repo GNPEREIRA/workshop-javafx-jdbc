@@ -68,8 +68,8 @@ public class SellerListController implements Initializable, DataChangeListener {
 
 	@FXML
 	public void onBtNew(ActionEvent event) {
-		Seller obj = new Seller();
 		Stage parentStage = Utils.currentStage(event);
+		Seller obj = new Seller();
 		createDialogForm(obj, "/gui/SellerForm.fxml", parentStage);
 	}
 
@@ -121,8 +121,11 @@ public class SellerListController implements Initializable, DataChangeListener {
 			Pane pane = loader.load();
 
 			// carrega os dados do objeto no formulário
+			SellerFormController controller = loader.getController();
 			// injeçoes de dependencia
-
+			controller.setSeller(obj);
+			controller.updateFormData();
+			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter Seller data");
 			dialogStage.setScene(new Scene(pane));

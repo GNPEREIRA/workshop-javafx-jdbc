@@ -117,7 +117,7 @@ public class SellerFormController implements Initializable {
 		}
 		obj.setEmail(textEmail.getText());
 		
-		obj.setBaseSalary(Utils.tryParseToDouble(textBaseSalary.getText()));
+		//obj.setBaseSalary(Utils.tryParseToDouble(textBaseSalary.getText()));
 		
 		if(textBaseSalary.getText() == null || textBaseSalary.getText().trim().equals("")) {
 			exception.addErrors("baseSalary", "Campo não pode estar vazio");

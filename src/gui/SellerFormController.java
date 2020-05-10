@@ -1,6 +1,8 @@
 package gui;
 
 import java.net.URL;
+import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -142,15 +144,20 @@ public class SellerFormController implements Initializable {
 		}
 		obj.setEmail(textEmail.getText());
 
-		// obj.setBaseSalary(Utils.tryParseToDouble(textBaseSalary.getText()));
+		if (dpBirthDate.getValue() == null) {
+			exception.addErrors("birthDate", "Campo não pode estar vazio");
+		} else {
+			Instant instant = Instant.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()));
+			obj.setBirthDate(Date.from(instant));
+		}
 
 		if (textBaseSalary.getText() == null || textBaseSalary.getText().trim().equals("")) {
 			exception.addErrors("baseSalary", "Campo não pode estar vazio");
 		}
-		// obj.setBaseSalary(textBaseSalary.getText());
+		obj.setBaseSalary(Utils.tryParseToDouble(textBaseSalary.getText()));
 
-		// flta data
-
+		obj.setDepartment(comboBoxDepartment.getValue());
+		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
 		}
@@ -176,12 +183,12 @@ public class SellerFormController implements Initializable {
 		}
 
 		textBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
-		
+
 		if (entity.getDepartment() == null) {
 			comboBoxDepartment.getSelectionModel().selectFirst();
-		}else {
+		} else {
 			comboBoxDepartment.setValue(entity.getDepartment());
-		}	
+		}
 	}
 
 	public void loadAssociatedObjects() {
@@ -197,24 +204,25 @@ public class SellerFormController implements Initializable {
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> fields = errors.keySet();
 
-		if (fields.contains("name")) {
+		/*if (fields.contains("name")) {
 			labelErrorName.setText(errors.get("name"));
-		}
+		}else {
+			labelErrorName.setText("");
+		}*/
+		labelErrorName.setText((fields.contains("name") ? errors.get("name") : ""));
 
-		if (fields.contains("email")) {
-			labelErrorEmail.setText(errors.get("email"));
-		}
+		labelErrorEmail.setText((fields.contains("email") ? errors.get("email") : ""));
 
-		if (fields.contains("baseSalary")) {
-			labelErrorBaseSalary.setText(errors.get("baseSalary"));
-		}
+		labelErrorBaseSalary.setText((fields.contains("baseSalary") ? errors.get("baseSalary") : ""));
+
+		labelErrorBirthDate.setText(fields.contains("birthDate") ? errors.get("birthDate") : "");
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 	}
-	
+
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(textId);
 		Constraints.setTextFieldMaxLength(textName, 70);
